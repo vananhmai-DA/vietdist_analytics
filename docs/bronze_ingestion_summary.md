@@ -2,9 +2,9 @@
 
 ## Objective
 
-This document summarizes the local Bronze Layer ingestion for the VietDist Analytics project.
+This document summarizes the Bronze Layer ingestion for the VietDist Analytics project.
 
-The raw dataset was manually downloaded to the local machine and placed under:
+The raw sample dataset is stored locally under:
 
 ```text
 data/raw/
@@ -14,7 +14,7 @@ The `data/` folder is excluded from GitHub using `.gitignore`.
 
 ## Ingestion Approach
 
-At this stage, data ingestion is done from local files instead of Google Drive or OneDrive connectors.
+This project version uses local sample files to ensure reproducibility and simplify environment setup.
 
 Current flow:
 
@@ -22,7 +22,7 @@ Current flow:
 Local raw files → Python parser → PostgreSQL raw schema → ingest_log
 ```
 
-Automation from Google Drive and OneDrive will be implemented later.
+The ingestion logic is designed in a modular way, allowing cloud-based connectors such as Google Drive and OneDrive to be integrated as future enhancements without changing the downstream Bronze, Silver, and Gold layer logic.
 
 ## Bronze Tables Loaded
 
@@ -63,4 +63,4 @@ The validation script checks:
   - `_batch_id`
 - All non-timestamp columns are loaded as text to avoid type issues at the Bronze stage.
 - Type casting and data cleaning will be handled in the Silver layer.
-- Local ingestion is used first to complete and validate the pipeline logic before implementing automated Google Drive and OneDrive ingestion.
+- The current implementation focuses on local sample-file ingestion for reproducibility, while keeping the pipeline structure extensible for future cloud-source automation.
