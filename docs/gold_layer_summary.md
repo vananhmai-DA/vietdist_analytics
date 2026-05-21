@@ -228,11 +228,12 @@ ORDER BY year, month;
 - Gold tables are analytics-ready and can be connected to Power BI.
 - Business aggregations are handled in mart tables.
 - The next phase is to build Power BI dashboards using the Gold Layer tables.
+
+
 ### Additional Dimensions for Power BI
 
-During the Power BI dashboard development phase, two additional Gold dimension tables were created to support business-friendly revenue breakdowns:
+During the Power BI dashboard development phase, three additional Gold dimension tables were created:
 
-- `dwh.dim_regions` supports geographic analysis by region and province, enabling Power BI visuals such as revenue by region and drill-down to province.
-- `dwh.dim_channels`
-
-These tables help analyze sales revenue by customer region and sales channel in the dashboard Overview page.
+- `dwh.dim_regions`: supports region-level analysis.
+- `dwh.dim_geography`: supports geographic drill-down from region to province.
+- `dwh.dim_channels`: supports channel-level revenue analysis.
