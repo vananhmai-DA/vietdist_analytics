@@ -232,7 +232,7 @@ ORDER BY year, month;
 
 During the Power BI dashboard development phase, two additional Gold dimension tables were created to support business-friendly revenue breakdowns:
 
-- `dwh.dim_regions`
+- `dwh.dim_regions` supports geographic analysis by region and province, enabling Power BI visuals such as revenue by region and drill-down to province.
 - `dwh.dim_channels`
 
 These tables help analyze sales revenue by customer region and sales channel in the dashboard Overview page.

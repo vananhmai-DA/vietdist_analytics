@@ -21,22 +21,27 @@ To support a cleaner star-schema structure and more professional dashboard filte
 
 ### Logic
 
-The `dim_regions` table extracts distinct customer regions from the customer dimension.
+The `dim_regions` table extracts distinct combinations of customer region and province from the customer dimension.
+
+The table supports geography-level analysis in Power BI, allowing revenue to be analyzed by region and drilled down to province.
 
 ### Table Structure
 
 | Column | Description |
 |---|---|
-| region_key | Surrogate key for each region |
+| geography_key | Primary key for each unique region-province combination |
+| region_key | Region-level key. The value repeats across provinces within the same region |
 | region | Region name |
+| province | Province name |
 
 ### Business Use
 
-This dimension supports revenue analysis by region in Power BI, such as:
+This dimension supports revenue analysis by geography in Power BI, such as:
 
 - Revenue by region
+- Revenue by province
 - Regional sales contribution
-- Regional performance comparison
+- Drill-down from region to province
 
 ---
 
