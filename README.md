@@ -30,3 +30,4 @@ The Power BI dashboard is structured into three analytical pages:
 For the full dashboard insight documentation, see:
 
 [`docs/dashboard_insights.md`](docs/dashboard_insights.md)
+The Power BI `.pbix` dashboard file is included in the `03_power_bi/` folder for review.
