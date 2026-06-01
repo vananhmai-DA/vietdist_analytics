@@ -1,0 +1,48 @@
+version: 2
+
+sources:
+  - name: raw
+    description: Bronze layer tables loaded from local raw files by Python ingestion scripts.
+    schema: raw
+    tables:
+      - name: ingest_log
+        description: Ingestion log table storing load status, batch_id, failed_step, and row counts.
+
+      - name: customer_master
+        description: Raw customer master data loaded from SRC03_customer_master.csv.
+
+      - name: distributor_master
+        description: Raw distributor master data loaded from SRC06_distributor_master.csv.
+
+      - name: product_master
+        description: Raw product master data loaded from SRC04_product_master.xlsx.
+
+      - name: employee_master
+        description: Raw employee master data loaded from SRC07_employee_master.xlsx.
+
+      - name: territory_mapping
+        description: Raw territory mapping data loaded from SRC08_territory_mapping.xlsx.
+
+      - name: sales_transactions
+        description: Raw sales transaction data loaded from SRC01_sales_transactions*.csv.
+
+      - name: return_transactions
+        description: Raw return transaction data loaded from SRC09_return_transactions*.csv.
+
+      - name: distributor_orders
+        description: Raw distributor order data loaded from SRC05_distributor_orders.xlsx.
+
+      - name: promotion_program
+        description: Raw promotion program data loaded from SRC10_promotion_program.xlsx.
+
+      - name: sales_target_plan
+        description: General Bronze raw table loaded from SRC02_sales_target_plan.xlsx.
+
+      - name: sales_target_files
+        description: Metadata table for sales target version sheets.
+
+      - name: sales_targets_raw
+        description: Normalized raw sales target data by version.
+
+      - name: sales_target_versions
+        description: Summary table of available sales target versions.

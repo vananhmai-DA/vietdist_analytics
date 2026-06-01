@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: Cleaned customer master data from raw.customer_master, using the latest successful ingestion batch.
+    columns:
+      - name: customer_id
+        description: Unique customer identifier.
+        tests:
+          - not_null
+          - unique
+
+      - name: customer_name
+        description: Customer name after trimming and null normalization.
+
+      - name: join_date
+        description: Customer join date after safe casting.
+
+      - name: credit_limit
+        description: Customer credit limit after safe numeric casting.
+
+      - name: _batch_id
+        description: Source ingestion batch used to build this staging model.
+        tests:
+          - not_null

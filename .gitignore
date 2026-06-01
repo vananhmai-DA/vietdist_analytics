@@ -4,9 +4,20 @@
 # Credentials
 credentials/
 
-# Python virtual environment
+# Python virtual environments
 venv/
-.venv/
+venv_dbt/
+
+# Environment variables
+.env
+
+# dbt artifacts
+02_sql_analytics/dbt/target/
+02_sql_analytics/dbt/logs/
+02_sql_analytics/dbt/dbt_packages/
+
+# dbt profiles should stay local
+profiles.yml
 
 # Python cache
 __pycache__/
