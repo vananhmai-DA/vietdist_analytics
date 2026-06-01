@@ -162,3 +162,47 @@ models:
         description: Source ingestion batch used to build this staging model.
         tests:
           - not_null
+
+  - name: stg_promotion_program
+    description: Cleaned promotion program data from raw.promotion_program, using the latest successful ingestion batch.
+    columns:
+      - name: promotion_id
+        description: Unique promotion identifier.
+        tests:
+          - not_null
+          - unique
+
+      - name: promotion_name
+        description: Promotion name after trimming and null normalization.
+
+      - name: promotion_type
+        description: Type of promotion program.
+
+      - name: target_channel
+        description: Target sales channel for the promotion.
+
+      - name: target_region
+        description: Target region for the promotion.
+
+      - name: start_date
+        description: Promotion start date after safe date casting.
+
+      - name: end_date
+        description: Promotion end date after safe date casting.
+
+      - name: discount_pct
+        description: Discount percentage after safe numeric casting.
+
+      - name: min_order_quantity
+        description: Minimum order quantity after safe numeric casting.
+
+      - name: budget_vnd
+        description: Promotion budget in VND after safe numeric casting.
+
+      - name: actual_cost_vnd
+        description: Actual promotion cost in VND after safe numeric casting.
+
+      - name: _batch_id
+        description: Source ingestion batch used to build this staging model.
+        tests:
+          - not_null
