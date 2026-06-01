@@ -20,12 +20,14 @@ from utils.db_utils import (
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
-SOURCE_FILE = PROJECT_ROOT / "data" / "raw" / "SRC09_return_transactions.csv"
+SOURCE_FOLDER = PROJECT_ROOT / "data" / "raw"
+FILE_PATTERN = "SRC09_return_transactions*.csv"
+
 TABLE_NAME = "return_transactions"
 SOURCE_PLATFORM = "local"
 
 
-def run():
+def load_one_file(source_file: Path) -> int:
     batch_id = str(uuid.uuid4())
     started_at = datetime.now()
     start_time = time.time()
@@ -34,27 +36,25 @@ def run():
     current_step = "START"
 
     try:
-        current_step = "CREATE_INGEST_LOG_TABLE"
-        create_ingest_log_table()
-
         current_step = "CHECK_SOURCE_FILE"
-        print(f"Reading file: {SOURCE_FILE}")
+        print("-" * 80)
+        print(f"Reading file: {source_file}")
 
-        if not SOURCE_FILE.exists():
-            raise FileNotFoundError(f"Source file not found: {SOURCE_FILE}")
+        if not source_file.exists():
+            raise FileNotFoundError(f"Source file not found: {source_file}")
 
         current_step = "PARSE_FILE"
-        df = parse_file(SOURCE_FILE)
+        df = parse_file(source_file)
 
         if df.empty:
-            raise ValueError(f"Source file is empty: {SOURCE_FILE.name}")
+            raise ValueError(f"Source file is empty: {source_file.name}")
 
         print(f"Raw shape: {df.shape[0]} rows x {df.shape[1]} columns")
 
         current_step = "ADD_METADATA"
         df = add_metadata(
             df=df,
-            source_file=SOURCE_FILE.name,
+            source_file=source_file.name,
             source_platform=SOURCE_PLATFORM,
             batch_id=batch_id,
         )
@@ -86,7 +86,7 @@ def run():
         write_ingest_log(
             batch_id=batch_id,
             source_name=TABLE_NAME,
-            source_file=SOURCE_FILE.name,
+            source_file=source_file.name,
             source_platform=SOURCE_PLATFORM,
             rows_loaded=rows_loaded,
             status="SUCCESS",
@@ -100,6 +100,8 @@ def run():
         print(f"SUCCESS: loaded and validated {rows_loaded} rows into raw.{TABLE_NAME}")
         print(f"Batch ID: {batch_id}")
 
+        return rows_loaded
+
     except Exception as e:
         finished_at = datetime.now()
         duration_sec = round(time.time() - start_time, 2)
@@ -107,7 +109,7 @@ def run():
         write_ingest_log(
             batch_id=batch_id,
             source_name=TABLE_NAME,
-            source_file=SOURCE_FILE.name,
+            source_file=source_file.name,
             source_platform=SOURCE_PLATFORM,
             rows_loaded=rows_loaded,
             status="FAILED",
@@ -119,8 +121,36 @@ def run():
         )
 
         print("FAILED")
+        print(f"Failed file: {source_file.name}")
         print(f"Failed step: {current_step}")
         print(e)
+
+        return 0
+
+
+def run():
+    create_ingest_log_table()
+
+    files = sorted(SOURCE_FOLDER.glob(FILE_PATTERN))
+
+    print(f"Source folder: {SOURCE_FOLDER}")
+    print(f"File pattern: {FILE_PATTERN}")
+    print(f"Files found: {len(files)}")
+
+    if not files:
+        raise FileNotFoundError(
+            f"No files found in {SOURCE_FOLDER} with pattern {FILE_PATTERN}"
+        )
+
+    total_loaded = 0
+
+    for source_file in files:
+        loaded_rows = load_one_file(source_file)
+        total_loaded += loaded_rows
+
+    print("=" * 80)
+    print(f"DONE: loaded total {total_loaded} rows into raw.{TABLE_NAME}")
+    print(f"Files processed: {len(files)}")
 
 
 if __name__ == "__main__":
