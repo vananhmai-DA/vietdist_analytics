@@ -206,3 +206,41 @@ models:
         description: Source ingestion batch used to build this staging model.
         tests:
           - not_null
+
+  - name: stg_return_transactions
+    description: Cleaned return transaction data from raw.return_transactions, using the latest successful ingestion batch.
+    columns:
+      - name: return_id
+        description: Unique return transaction identifier.
+        tests:
+          - not_null
+          - unique
+
+      - name: original_order_id
+        description: Original order identifier related to the return.
+
+      - name: return_date
+        description: Return date after safe date casting.
+
+      - name: customer_id
+        description: Customer identifier.
+
+      - name: employee_id
+        description: Employee identifier.
+
+      - name: product_id
+        description: Product identifier.
+
+      - name: return_quantity
+        description: Returned quantity after safe numeric casting.
+
+      - name: unit_price
+        description: Unit price after safe numeric casting.
+
+      - name: return_amount
+        description: Return amount after safe numeric casting.
+
+      - name: _batch_id
+        description: Source ingestion batch used to build this staging model.
+        tests:
+          - not_null
