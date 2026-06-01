@@ -15,6 +15,7 @@ from utils.db_utils import get_engine, clean_column_names
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
+
 SOURCE_FILE = PROJECT_ROOT / "data" / "raw" / "SRC02_sales_target_plan.xlsx"
 SOURCE_PLATFORM = "local"
 
@@ -30,12 +31,16 @@ def extract_version_label(sheet_name: str) -> str:
     Examples:
     - Plan_v1_Original -> v1
     - Plan_v2_Adjustment_H2 -> v2
+
+    If no version label is found, return 'unknown'
+    instead of failing the whole process.
     """
     match = re.search(r"(v\d+)", sheet_name.lower())
+
     if match:
         return match.group(1)
 
-    raise ValueError(f"Cannot extract version label from sheet name: {sheet_name}")
+    return "unknown"
 
 
 def create_target_tables():
@@ -83,13 +88,23 @@ def create_target_tables():
     print("raw.sales_target_files and raw.sales_targets_raw are ready.")
 
 
-def normalize_target_sheet(df: pd.DataFrame, sheet_name: str, batch_id: str) -> pd.DataFrame:
+def normalize_target_sheet(
+    df: pd.DataFrame,
+    sheet_name: str,
+    batch_id: str
+) -> pd.DataFrame:
     """
     Normalize one sales target sheet into long raw format.
 
-    Current sample sheets are already in long format with a month column.
-    This function still standardizes month_col to T1..T12 and removes any Total/Tổng rows.
+    This function:
+    - cleans column names
+    - removes fully empty rows
+    - ensures required columns exist
+    - removes Total/Tổng rows
+    - standardizes month_col as T1..T12
+    - adds metadata
     """
+
     version_label = extract_version_label(sheet_name)
 
     df = clean_column_names(df)
@@ -97,7 +112,6 @@ def normalize_target_sheet(df: pd.DataFrame, sheet_name: str, batch_id: str) -> 
     # Drop fully empty rows
     df = df.dropna(how="all").copy()
 
-    # Ensure expected columns exist
     expected_cols = [
         "plan_version",
         "version_date",
@@ -118,7 +132,7 @@ def normalize_target_sheet(df: pd.DataFrame, sheet_name: str, batch_id: str) -> 
         if col not in df.columns:
             df[col] = None
 
-    # Remove rows containing Tổng/Total in key fields
+    # Convert key text fields to string before checking Total/Tổng
     for col in ["employee_id", "employee_name", "month"]:
         df[col] = df[col].astype("string")
 
@@ -133,13 +147,16 @@ def normalize_target_sheet(df: pd.DataFrame, sheet_name: str, batch_id: str) -> 
     # Standardize version label from sheet name
     df["version_label"] = version_label
 
-    # Convert month into month_col T1..T12
+    # Convert month into T1..T12
     month_num = pd.to_numeric(df["month"], errors="coerce")
+
     df["month_col"] = month_num.apply(
-        lambda x: f"T{int(x)}" if pd.notna(x) and 1 <= int(x) <= 12 else None
+        lambda x: f"T{int(x)}"
+        if pd.notna(x) and 1 <= int(x) <= 12
+        else None
     )
 
-    # Keep only valid months T1..T12
+    # Keep only valid months
     df = df[df["month_col"].notna()].copy()
 
     # Metadata
@@ -149,8 +166,6 @@ def normalize_target_sheet(df: pd.DataFrame, sheet_name: str, batch_id: str) -> 
     df["_ingested_at"] = datetime.now()
     df["_batch_id"] = batch_id
 
-    # Rename plan_version to version_label logic already handled
-    # Keep version_date / effective fields from original data
     output_cols = [
         "version_label",
         "version_date",
@@ -175,12 +190,93 @@ def normalize_target_sheet(df: pd.DataFrame, sheet_name: str, batch_id: str) -> 
 
     df = df[output_cols].copy()
 
-    # Store Bronze values as text except timestamp
+    # Bronze values as text except timestamp
     for col in df.columns:
         if col != "_ingested_at":
             df[col] = df[col].astype("string")
 
     return df
+
+
+def write_target_file_log(
+    batch_id: str,
+    source_file: str,
+    sheet_name: str,
+    version_label: str,
+    rows_loaded: int,
+    status: str,
+    error_message: str | None
+):
+    engine = get_engine()
+
+    with engine.begin() as conn:
+        conn.execute(
+            text("""
+                INSERT INTO raw.sales_target_files (
+                    batch_id,
+                    source_file,
+                    sheet_name,
+                    version_label,
+                    rows_loaded,
+                    status,
+                    error_message,
+                    ingested_at
+                )
+                VALUES (
+                    :batch_id,
+                    :source_file,
+                    :sheet_name,
+                    :version_label,
+                    :rows_loaded,
+                    :status,
+                    :error_message,
+                    :ingested_at
+                );
+            """),
+            {
+                "batch_id": batch_id,
+                "source_file": source_file,
+                "sheet_name": sheet_name,
+                "version_label": version_label,
+                "rows_loaded": rows_loaded,
+                "status": status,
+                "error_message": error_message,
+                "ingested_at": datetime.now(),
+            },
+        )
+
+
+def validate_loaded_sheet(
+    sheet_name: str,
+    expected_rows: int
+) -> bool:
+    """
+    Validate row count after loading one sheet.
+    Since this process deletes and reloads by source_file + sheet_name,
+    checking by sheet_name is enough for this local portfolio version.
+    """
+
+    engine = get_engine()
+
+    with engine.connect() as conn:
+        actual_rows = conn.execute(
+            text("""
+                SELECT COUNT(*)
+                FROM raw.sales_targets_raw
+                WHERE _source_file = :source_file
+                  AND sheet_name = :sheet_name;
+            """),
+            {
+                "source_file": SOURCE_FILE.name,
+                "sheet_name": sheet_name,
+            },
+        ).scalar()
+
+    print("Validation check:")
+    print(f"Expected rows for {sheet_name}: {expected_rows}")
+    print(f"Actual rows in raw.sales_targets_raw: {actual_rows}")
+
+    return actual_rows == expected_rows
 
 
 def load_sales_target_versions():
@@ -189,7 +285,15 @@ def load_sales_target_versions():
 
     create_target_tables()
 
-    all_sheets = pd.read_excel(SOURCE_FILE, sheet_name=None, engine="openpyxl")
+    if not SOURCE_FILE.exists():
+        raise FileNotFoundError(f"Source file not found: {SOURCE_FILE}")
+
+    all_sheets = pd.read_excel(
+        SOURCE_FILE,
+        sheet_name=None,
+        engine="openpyxl",
+        dtype=str
+    )
 
     target_sheets = {
         sheet_name: df
@@ -198,16 +302,21 @@ def load_sales_target_versions():
     }
 
     print(f"Found {len(target_sheets)} target sheet(s): {list(target_sheets.keys())}")
+    print(f"Batch ID: {batch_id}")
+
+    total_loaded = 0
 
     for sheet_name, df in target_sheets.items():
         started = time.time()
+        rows_loaded = 0
         status = "SUCCESS"
         error_message = None
-        rows_loaded = 0
+        version_label = extract_version_label(sheet_name)
 
         try:
             print("\n" + "=" * 80)
             print(f"Processing sheet: {sheet_name}")
+            print(f"Detected version: {version_label}")
 
             normalized_df = normalize_target_sheet(
                 df=df,
@@ -217,10 +326,12 @@ def load_sales_target_versions():
 
             rows_loaded = len(normalized_df)
 
+            if rows_loaded == 0:
+                raise ValueError(f"No valid target rows found in sheet: {sheet_name}")
+
             with engine.begin() as conn:
-                # Idempotent reload for the same file + sheet.
-                # This prevents duplicates when rerunning the script,
-                # but does not delete other versions/sheets.
+                # Idempotent reload for the same source file + sheet.
+                # This avoids duplicates when rerunning this script.
                 conn.execute(
                     text("""
                         DELETE FROM raw.sales_targets_raw
@@ -251,47 +362,31 @@ def load_sales_target_versions():
                 schema="raw",
                 if_exists="append",
                 index=False,
-                method="multi",
                 chunksize=1000,
             )
 
-            version_label = extract_version_label(sheet_name)
+            is_valid = validate_loaded_sheet(
+                sheet_name=sheet_name,
+                expected_rows=rows_loaded,
+            )
 
-            with engine.begin() as conn:
-                conn.execute(
-                    text("""
-                        INSERT INTO raw.sales_target_files (
-                            batch_id,
-                            source_file,
-                            sheet_name,
-                            version_label,
-                            rows_loaded,
-                            status,
-                            error_message,
-                            ingested_at
-                        )
-                        VALUES (
-                            :batch_id,
-                            :source_file,
-                            :sheet_name,
-                            :version_label,
-                            :rows_loaded,
-                            :status,
-                            :error_message,
-                            :ingested_at
-                        );
-                    """),
-                    {
-                        "batch_id": batch_id,
-                        "source_file": SOURCE_FILE.name,
-                        "sheet_name": sheet_name,
-                        "version_label": version_label,
-                        "rows_loaded": rows_loaded,
-                        "status": status,
-                        "error_message": error_message,
-                        "ingested_at": datetime.now(),
-                    },
+            if not is_valid:
+                raise ValueError(
+                    f"Validation failed for sheet {sheet_name}. "
+                    f"Expected {rows_loaded} rows."
                 )
+
+            write_target_file_log(
+                batch_id=batch_id,
+                source_file=SOURCE_FILE.name,
+                sheet_name=sheet_name,
+                version_label=version_label,
+                rows_loaded=rows_loaded,
+                status=status,
+                error_message=error_message,
+            )
+
+            total_loaded += rows_loaded
 
             print(f"SUCCESS: loaded {rows_loaded} rows from {sheet_name}")
 
@@ -299,46 +394,23 @@ def load_sales_target_versions():
             status = "FAILED"
             error_message = str(e)
 
-            with engine.begin() as conn:
-                conn.execute(
-                    text("""
-                        INSERT INTO raw.sales_target_files (
-                            batch_id,
-                            source_file,
-                            sheet_name,
-                            version_label,
-                            rows_loaded,
-                            status,
-                            error_message,
-                            ingested_at
-                        )
-                        VALUES (
-                            :batch_id,
-                            :source_file,
-                            :sheet_name,
-                            :version_label,
-                            :rows_loaded,
-                            :status,
-                            :error_message,
-                            :ingested_at
-                        );
-                    """),
-                    {
-                        "batch_id": batch_id,
-                        "source_file": SOURCE_FILE.name,
-                        "sheet_name": sheet_name,
-                        "version_label": extract_version_label(sheet_name),
-                        "rows_loaded": 0,
-                        "status": status,
-                        "error_message": error_message,
-                        "ingested_at": datetime.now(),
-                    },
-                )
+            write_target_file_log(
+                batch_id=batch_id,
+                source_file=SOURCE_FILE.name,
+                sheet_name=sheet_name,
+                version_label=version_label,
+                rows_loaded=0,
+                status=status,
+                error_message=error_message,
+            )
 
             print(f"FAILED: {sheet_name}")
             print(error_message)
 
         print(f"Duration: {round(time.time() - started, 2)} sec")
+
+    print("\n" + "=" * 80)
+    print(f"DONE: loaded total {total_loaded} rows into raw.sales_targets_raw")
 
 
 def refresh_sales_target_versions_summary():
