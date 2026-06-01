@@ -3,21 +3,20 @@
 
 # Credentials
 credentials/
+profiles.yml
+
+# Local data and logs
+/data/
+/logs/
 
 # Python virtual environments
-venv/
-venv_dbt/
-
-# Environment variables
-.env
+/venv/
+/venv_dbt/
 
 # dbt artifacts
 02_sql_analytics/dbt/target/
 02_sql_analytics/dbt/logs/
 02_sql_analytics/dbt/dbt_packages/
-
-# dbt profiles should stay local
-profiles.yml
 
 # Python cache
 __pycache__/
@@ -41,4 +40,3 @@ Thumbs.db
 
 # Logs
 *.log
-data/

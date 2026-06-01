@@ -1,4 +1,10 @@
-{{ config(materialized='table') }}
+{{ 
+    config(
+        materialized='incremental',
+        unique_key=['order_id', 'distributor_id', 'product_id'],
+        incremental_strategy='delete+insert'
+    ) 
+}}
 
 WITH latest_success_batch AS (
     SELECT
@@ -205,6 +211,13 @@ source AS (
         SELECT batch_id
         FROM latest_success_batch
     )
+
+    {% if is_incremental() %}
+      AND _ingested_at > (
+          SELECT COALESCE(MAX(_ingested_at), TIMESTAMP '1900-01-01')
+          FROM {{ this }}
+      )
+    {% endif %}
 )
 
 SELECT

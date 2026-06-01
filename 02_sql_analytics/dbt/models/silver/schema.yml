@@ -345,3 +345,37 @@ models:
         description: Source ingestion batch used to build this staging model.
         tests:
           - not_null
+
+  - name: stg_territory_mapping
+    description: Cleaned territory mapping data from raw.territory_mapping, using the latest successful ingestion batch.
+    columns:
+      - name: territory_id
+        description: Territory mapping identifier.
+        tests:
+          - not_null
+
+      - name: employee_id
+        description: Employee identifier assigned to the territory.
+        tests:
+          - not_null
+
+      - name: customer_id
+        description: Customer identifier assigned to the territory.
+        tests:
+          - not_null
+
+      - name: effective_date
+        description: Effective date of the territory assignment after safe date casting.
+        tests:
+          - not_null
+
+      - name: expiry_date
+        description: Expiry date of the territory assignment after safe date casting.
+
+      - name: version
+        description: Version label of the territory mapping record.
+
+      - name: _batch_id
+        description: Source ingestion batch used to build this staging model.
+        tests:
+          - not_null
