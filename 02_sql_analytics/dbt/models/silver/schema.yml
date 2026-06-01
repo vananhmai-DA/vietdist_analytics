@@ -23,3 +23,38 @@ models:
         description: Source ingestion batch used to build this staging model.
         tests:
           - not_null
+
+  - name: stg_distributor_orders
+    description: Cleaned distributor order data from raw.distributor_orders, using the latest successful ingestion batch.
+    columns:
+      - name: order_id
+        description: Distributor order identifier.
+        tests:
+          - not_null
+
+      - name: distributor_id
+        description: Distributor identifier.
+        tests:
+          - not_null
+
+      - name: product_id
+        description: Product identifier.
+        tests:
+          - not_null
+
+      - name: order_date
+        description: Order date after safe date casting.
+
+      - name: qty_ordered
+        description: Ordered quantity after safe numeric casting.
+
+      - name: qty_delivered
+        description: Delivered quantity after safe numeric casting.
+
+      - name: fill_rate_pct
+        description: Fill rate percentage after safe numeric casting.
+
+      - name: _batch_id
+        description: Source ingestion batch used to build this staging model.
+        tests:
+          - not_null
