@@ -297,3 +297,51 @@ models:
         description: Source ingestion batch used to build this staging model.
         tests:
           - not_null
+
+  - name: stg_sales_transactions
+    description: Cleaned sales transaction data from raw.sales_transactions, using the latest successful ingestion batch.
+    columns:
+      - name: order_id
+        description: Sales order identifier.
+        tests:
+          - not_null
+
+      - name: product_id
+        description: Product identifier in the sales order.
+        tests:
+          - not_null
+
+      - name: order_date
+        description: Sales order date after safe date casting.
+
+      - name: order_month
+        description: Sales order month after safe integer casting.
+
+      - name: order_year
+        description: Sales order year after safe integer casting.
+
+      - name: customer_id
+        description: Customer identifier.
+
+      - name: employee_id
+        description: Employee identifier.
+
+      - name: quantity
+        description: Sales quantity after safe numeric casting.
+
+      - name: unit_price
+        description: Unit price after safe numeric casting.
+
+      - name: discount_pct
+        description: Discount percentage after safe numeric casting.
+
+      - name: gross_amount
+        description: Gross sales amount after safe numeric casting.
+
+      - name: net_amount
+        description: Net sales amount after safe numeric casting.
+
+      - name: _batch_id
+        description: Source ingestion batch used to build this staging model.
+        tests:
+          - not_null
