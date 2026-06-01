@@ -244,3 +244,56 @@ models:
         description: Source ingestion batch used to build this staging model.
         tests:
           - not_null
+
+  - name: stg_sales_targets_versioned
+    description: Cleaned and versioned sales target data from raw.sales_targets_raw.
+    columns:
+      - name: version_label
+        description: Sales target version label, such as v1 or v2.
+        tests:
+          - not_null
+
+      - name: version_rank
+        description: Numeric rank extracted from version_label.
+
+      - name: employee_id
+        description: Employee identifier for the sales target row.
+        tests:
+          - not_null
+
+      - name: target_year
+        description: Target year after safe integer casting.
+        tests:
+          - not_null
+
+      - name: target_month
+        description: Target month after safe integer casting.
+        tests:
+          - not_null
+
+      - name: month_col
+        description: Standardized month label from T1 to T12.
+        tests:
+          - not_null
+
+      - name: target_month_date
+        description: First day of the target month.
+
+      - name: target_revenue
+        description: Target revenue after safe numeric casting.
+
+      - name: target_quantity
+        description: Target quantity after safe numeric casting.
+
+      - name: target_new_customers
+        description: Target new customers after safe numeric casting.
+
+      - name: is_latest
+        description: Boolean flag indicating whether this is the latest target version for the employee and target month.
+        tests:
+          - not_null
+
+      - name: _batch_id
+        description: Source ingestion batch used to build this staging model.
+        tests:
+          - not_null
