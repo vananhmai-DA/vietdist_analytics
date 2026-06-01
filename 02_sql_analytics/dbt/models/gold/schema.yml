@@ -1,0 +1,565 @@
+version: 2
+
+models:
+  - name: dim_customers
+    description: Customer dimension table built from the cleaned Silver customer master model.
+    columns:
+      - name: customer_key
+        description: Customer business key used for joins.
+        tests:
+          - not_null
+          - unique
+
+      - name: customer_id
+        description: Original customer identifier from source.
+        tests:
+          - not_null
+          - unique
+
+      - name: customer_name
+        description: Customer name.
+
+      - name: customer_type
+        description: Customer type.
+
+      - name: channel
+        description: Customer sales channel.
+
+      - name: province
+        description: Customer province.
+
+      - name: region
+        description: Customer region.
+
+      - name: credit_limit_tier
+        description: Customer credit tier derived from credit limit.
+
+  - name: dim_products
+    description: Product dimension table built from the cleaned Silver product master model.
+    columns:
+      - name: product_key
+        description: Product business key used for joins.
+        tests:
+          - not_null
+          - unique
+
+      - name: product_id
+        description: Original product identifier from source.
+        tests:
+          - not_null
+          - unique
+
+      - name: product_name
+        description: Product name.
+
+      - name: category
+        description: Product category.
+
+      - name: sub_category
+        description: Product sub-category.
+
+      - name: unit
+        description: Product selling unit.
+
+      - name: unit_price
+        description: Product unit price.
+
+      - name: cost_price
+        description: Product cost price.
+
+      - name: unit_margin
+        description: Unit-level gross margin amount calculated as unit_price minus cost_price.
+
+      - name: unit_margin_pct
+        description: Unit-level gross margin percentage calculated from unit margin over unit price.
+
+  - name: dim_distributors
+    description: Distributor dimension table built from the cleaned Silver distributor master model.
+    columns:
+      - name: distributor_key
+        description: Distributor business key used for joins.
+        tests:
+          - not_null
+          - unique
+
+      - name: distributor_id
+        description: Original distributor identifier from source.
+        tests:
+          - not_null
+          - unique
+
+      - name: distributor_name
+        description: Distributor name.
+
+      - name: tier
+        description: Distributor tier.
+
+      - name: channel
+        description: Distributor sales channel.
+
+      - name: province
+        description: Distributor province.
+
+      - name: region
+        description: Distributor region.
+
+      - name: assigned_supervisor_id
+        description: Employee ID of the assigned supervisor.
+
+      - name: credit_limit_tier
+        description: Distributor credit tier derived from credit limit.
+
+  - name: dim_employees
+    description: Employee dimension table built from the cleaned Silver employee master model, using effective date history.
+    columns:
+      - name: employee_key
+        description: Employee historical key generated from employee_id and effective_from date.
+        tests:
+          - not_null
+          - unique
+
+      - name: employee_id
+        description: Original employee identifier from source.
+        tests:
+          - not_null
+
+      - name: full_name
+        description: Employee full name.
+
+      - name: position
+        description: Employee position.
+
+      - name: region
+        description: Employee assigned region.
+
+      - name: team
+        description: Employee assigned team.
+
+      - name: effective_from
+        description: Start date of this employee dimension record.
+        tests:
+          - not_null
+
+      - name: effective_to
+        description: End date of this employee dimension record.
+
+      - name: is_current
+        description: Boolean flag indicating whether this is the current employee record.
+        tests:
+          - not_null
+
+  - name: dim_channels
+    description: Channel dimension table built from distinct sales and distribution channels in Silver models.
+    columns:
+      - name: channel_key
+        description: Channel key used for analytics joins.
+        tests:
+          - not_null
+          - unique
+
+      - name: channel
+        description: Sales or distribution channel name.
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_regions
+    description: Region dimension table built from distinct regions across Silver models.
+    columns:
+      - name: region_key
+        description: Region key used for analytics joins.
+        tests:
+          - not_null
+          - unique
+
+      - name: region
+        description: Region name.
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_dates
+    description: Date dimension table generated from a daily date spine.
+    columns:
+      - name: date_key
+        description: Date key in YYYYMMDD format.
+        tests:
+          - not_null
+          - unique
+
+      - name: date_day
+        description: Calendar date.
+        tests:
+          - not_null
+          - unique
+
+      - name: calendar_year
+        description: Calendar year.
+
+      - name: calendar_quarter
+        description: Calendar quarter.
+
+      - name: month_number
+        description: Month number from 1 to 12.
+
+      - name: month_name
+        description: Month name.
+
+      - name: day_of_month
+        description: Day of month.
+
+      - name: day_of_week
+        description: ISO day of week, where Monday is 1 and Sunday is 7.
+
+      - name: day_name
+        description: Day name.
+
+      - name: week_of_year
+        description: Week number of the year.
+
+      - name: fiscal_year
+        description: Fiscal year assuming fiscal year starts in September.
+
+      - name: fiscal_quarter
+        description: Fiscal quarter assuming fiscal year starts in September.
+
+      - name: is_weekend
+        description: Boolean flag indicating Saturday or Sunday.
+        tests:
+          - not_null
+
+  - name: dim_geography
+    description: Geography dimension table built from distinct region and province combinations across Silver models.
+    columns:
+      - name: geography_key
+        description: Geography key used for analytics joins.
+        tests:
+          - not_null
+          - unique
+
+      - name: region_key
+        description: Region key derived from dense ranking of region names.
+        tests:
+          - not_null
+
+      - name: region
+        description: Region name.
+        tests:
+          - not_null
+
+      - name: province
+        description: Province name.
+        tests:
+          - not_null
+  - name: fact_sales
+    description: Sales fact table built from Silver sales transactions and Gold dimensions.
+    columns:
+      - name: sales_line_key
+        description: Unique fact row key generated from order_id and product_id.
+        tests:
+          - not_null
+          - unique
+
+      - name: order_id
+        description: Sales order identifier.
+        tests:
+          - not_null
+
+      - name: order_date_key
+        description: Foreign key to dim_dates.
+        tests:
+          - not_null
+
+      - name: product_key
+        description: Foreign key to dim_products.
+        tests:
+          - not_null
+
+      - name: customer_key
+        description: Foreign key to dim_customers.
+
+      - name: employee_key
+        description: Foreign key to dim_employees.
+
+      - name: channel_key
+        description: Foreign key to dim_channels.
+
+      - name: geography_key
+        description: Foreign key to dim_geography.
+
+      - name: quantity
+        description: Sold quantity.
+
+      - name: gross_amount
+        description: Gross sales amount before discount.
+
+      - name: net_amount
+        description: Net sales amount after discount.
+
+      - name: total_cost
+        description: Estimated total cost calculated from quantity and product cost price.
+
+      - name: gross_profit
+        description: Net amount minus estimated total cost.
+
+      - name: gross_profit_margin_pct
+        description: Gross profit margin percentage.
+
+  - name: fact_returns
+    description: Return transaction fact table built from Silver return transactions and Gold dimensions.
+    columns:
+      - name: return_id
+        description: Unique return transaction identifier.
+        tests:
+          - not_null
+          - unique
+
+      - name: original_order_id
+        description: Original sales order related to the return.
+
+      - name: return_date_key
+        description: Foreign key to dim_dates.
+        tests:
+          - not_null
+
+      - name: product_key
+        description: Foreign key to dim_products.
+        tests:
+          - not_null
+
+      - name: customer_key
+        description: Foreign key to dim_customers.
+
+      - name: employee_key
+        description: Foreign key to dim_employees.
+
+      - name: geography_key
+        description: Foreign key to dim_geography.
+
+      - name: return_quantity
+        description: Returned quantity.
+
+      - name: return_amount
+        description: Return amount.
+
+      - name: return_cost_amount
+        description: Estimated cost of returned goods based on return quantity and product cost price.
+
+      - name: return_margin_impact
+        description: Estimated gross margin impact from returned goods.
+
+  - name: fact_distributor_orders
+    description: Distributor order fact table built from Silver distributor orders and Gold dimensions.
+    columns:
+      - name: distributor_order_line_key
+        description: Unique fact row key generated from order_id, distributor_id, and product_id.
+        tests:
+          - not_null
+          - unique
+
+      - name: order_id
+        description: Distributor order identifier.
+        tests:
+          - not_null
+
+      - name: order_date_key
+        description: Foreign key to dim_dates for order date.
+        tests:
+          - not_null
+
+      - name: distributor_key
+        description: Foreign key to dim_distributors.
+        tests:
+          - not_null
+
+      - name: product_key
+        description: Foreign key to dim_products.
+        tests:
+          - not_null
+
+      - name: expected_delivery_date_key
+        description: Foreign key to dim_dates for expected delivery date.
+
+      - name: actual_delivery_date_key
+        description: Foreign key to dim_dates for actual delivery date.
+
+      - name: channel_key
+        description: Foreign key to dim_channels.
+
+      - name: geography_key
+        description: Foreign key to dim_geography.
+
+      - name: qty_ordered
+        description: Ordered quantity.
+
+      - name: qty_delivered
+        description: Delivered quantity.
+
+      - name: fill_rate_pct
+        description: Fill rate percentage from source.
+
+      - name: calculated_fill_rate_pct
+        description: Recalculated fill rate percentage based on delivered quantity divided by ordered quantity.
+
+      - name: calculated_on_time_delivery
+        description: Boolean flag recalculated from expected and actual delivery dates.
+
+      - name: delivered_amount
+        description: Delivered order amount.
+
+  - name: fact_targets
+    description: Latest sales target fact table built from versioned Silver sales targets and Gold dimensions.
+    columns:
+      - name: target_key
+        description: Unique target row key generated from employee_id and target_month_date.
+        tests:
+          - not_null
+          - unique
+
+      - name: target_date_key
+        description: Foreign key to dim_dates for the target month date.
+        tests:
+          - not_null
+
+      - name: employee_key
+        description: Foreign key to dim_employees.
+
+      - name: employee_id
+        description: Employee identifier.
+        tests:
+          - not_null
+
+      - name: target_year
+        description: Target year.
+        tests:
+          - not_null
+
+      - name: target_month
+        description: Target month.
+        tests:
+          - not_null
+
+      - name: target_month_date
+        description: First day of the target month.
+        tests:
+          - not_null
+
+      - name: version_label
+        description: Sales target version label.
+        tests:
+          - not_null
+
+      - name: is_latest
+        description: Boolean flag indicating latest target version.
+        tests:
+          - not_null
+
+      - name: target_revenue
+        description: Target revenue amount.
+
+      - name: target_quantity
+        description: Target quantity.
+
+      - name: target_new_customers
+        description: Target number of new customers.
+
+  - name: mart_distributor_performance
+    description: Monthly distributor performance mart for dashboard analysis, including fill rate, delivery amount rate, and on-time delivery rate.
+    columns:
+      - name: distributor_id
+        description: Distributor identifier.
+        tests:
+          - not_null
+
+      - name: month_date
+        description: First day of the reporting month.
+        tests:
+          - not_null
+
+      - name: total_orders
+        description: Number of distinct distributor orders.
+
+      - name: products_ordered
+        description: Number of distinct products ordered.
+
+      - name: total_qty_ordered
+        description: Total quantity ordered.
+
+      - name: total_qty_delivered
+        description: Total quantity delivered.
+
+      - name: fill_rate_pct
+        description: Delivered quantity divided by ordered quantity.
+
+      - name: total_gross_amount
+        description: Total gross order amount.
+
+      - name: total_delivered_amount
+        description: Total delivered amount.
+
+      - name: delivered_amount_rate_pct
+        description: Delivered amount divided by gross amount.
+
+      - name: on_time_delivery_rate_pct
+        description: Percentage of delivery records delivered on time.
+
+  - name: mart_sales_vs_target
+    description: Monthly sales performance mart comparing actual sales results against latest sales targets.
+    columns:
+      - name: employee_id
+        description: Employee identifier.
+        tests:
+          - not_null
+
+      - name: month_date
+        description: First day of the reporting month.
+        tests:
+          - not_null
+
+      - name: year
+        description: Reporting year.
+
+      - name: month
+        description: Reporting month.
+
+      - name: total_orders
+        description: Number of distinct sales orders.
+
+      - name: active_customers
+        description: Number of distinct active customers.
+
+      - name: actual_quantity
+        description: Actual sold quantity.
+
+      - name: target_quantity
+        description: Target quantity.
+
+      - name: quantity_gap
+        description: Difference between actual quantity and target quantity.
+
+      - name: quantity_achievement_pct
+        description: Actual quantity divided by target quantity.
+
+      - name: actual_revenue
+        description: Actual net revenue.
+
+      - name: target_revenue
+        description: Target revenue.
+
+      - name: revenue_gap
+        description: Difference between actual revenue and target revenue.
+
+      - name: revenue_achievement_pct
+        description: Actual revenue divided by target revenue.
+
+      - name: actual_total_cost
+        description: Actual total cost calculated from fact_sales.
+
+      - name: actual_gross_profit
+        description: Actual gross profit calculated from fact_sales.
+
+      - name: actual_gross_profit_margin_pct
+        description: Actual gross profit divided by actual revenue.
+
+      - name: target_new_customers
+        description: Target number of new customers.
