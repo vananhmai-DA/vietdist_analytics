@@ -200,3 +200,30 @@ def validate_bronze_load(
     print(f"Actual rows in raw.{table_name}: {actual_rows}")
 
     return actual_rows == expected_rows
+
+
+
+def load_to_bronze_safe(
+    df: pd.DataFrame,
+    table_name: str,
+    if_exists: str = "append"
+) -> int:
+    engine = get_engine()
+
+    df = clean_column_names(df)
+
+    # Bronze layer: store original data as text to avoid type issues
+    for col in df.columns:
+        if col != "_ingested_at":
+            df[col] = df[col].astype("string")
+
+    df.to_sql(
+        name=table_name,
+        con=engine,
+        schema="raw",
+        if_exists=if_exists,
+        index=False,
+        chunksize=1000,
+    )
+
+    return len(df)
