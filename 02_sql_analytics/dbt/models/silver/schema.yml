@@ -96,3 +96,32 @@ models:
         description: Source ingestion batch used to build this staging model.
         tests:
           - not_null
+  - name: stg_employees
+    description: Cleaned employee master data from raw.employee_master, using the latest successful ingestion batch.
+    columns:
+      - name: employee_id
+        description: Employee identifier.
+        tests:
+          - not_null
+
+      - name: full_name
+        description: Employee full name after trimming and null normalization.
+
+      - name: position
+        description: Employee position.
+
+      - name: region
+        description: Employee assigned region.
+
+      - name: team
+        description: Employee assigned team.
+
+      - name: effective_date
+        description: Effective date of the employee record after safe date casting.
+        tests:
+          - not_null
+
+      - name: _batch_id
+        description: Source ingestion batch used to build this staging model.
+        tests:
+          - not_null
