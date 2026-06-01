@@ -58,3 +58,41 @@ models:
         description: Source ingestion batch used to build this staging model.
         tests:
           - not_null
+
+  - name: stg_distributors
+    description: Cleaned distributor master data from raw.distributor_master, using the latest successful ingestion batch.
+    columns:
+      - name: distributor_id
+        description: Unique distributor identifier.
+        tests:
+          - not_null
+          - unique
+
+      - name: distributor_name
+        description: Distributor name after trimming and null normalization.
+
+      - name: tier
+        description: Distributor tier after trimming and null normalization.
+
+      - name: channel
+        description: Distributor sales channel.
+
+      - name: province
+        description: Distributor province.
+
+      - name: region
+        description: Distributor region.
+
+      - name: join_date
+        description: Distributor join date after safe date casting.
+
+      - name: credit_limit
+        description: Distributor credit limit after safe numeric casting.
+
+      - name: assigned_supervisor_id
+        description: Employee ID of the assigned supervisor.
+
+      - name: _batch_id
+        description: Source ingestion batch used to build this staging model.
+        tests:
+          - not_null
