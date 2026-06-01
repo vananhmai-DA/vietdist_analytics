@@ -125,3 +125,40 @@ models:
         description: Source ingestion batch used to build this staging model.
         tests:
           - not_null
+  - name: stg_products
+    description: Cleaned product master data from raw.product_master, using the latest successful ingestion batch.
+    columns:
+      - name: product_id
+        description: Unique product identifier.
+        tests:
+          - not_null
+          - unique
+
+      - name: product_name
+        description: Product name after trimming and null normalization.
+
+      - name: category
+        description: Product category.
+
+      - name: sub_category
+        description: Product sub-category.
+
+      - name: unit
+        description: Product selling unit.
+
+      - name: unit_price
+        description: Product unit price after safe numeric casting.
+
+      - name: cost_price
+        description: Product cost price after safe numeric casting.
+
+      - name: weight_gram
+        description: Product weight in grams after safe numeric casting.
+
+      - name: launch_date
+        description: Product launch date after safe date casting.
+
+      - name: _batch_id
+        description: Source ingestion batch used to build this staging model.
+        tests:
+          - not_null
