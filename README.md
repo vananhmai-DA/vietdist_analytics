@@ -324,7 +324,7 @@ The dashboard is structured into three pages.
 
 ### Page 1 — Overview
 
-![Overview](../03_power_bi/images/page_1_overview.png)
+![Overview](03_power_bi/images/page_1_overview.png)
 
 Key findings:
 
@@ -344,7 +344,7 @@ The company’s main issue is revenue scale, not profitability.
 
 ### Page 2 — Sales Performance
 
-![Sales Performance](../03_power_bi/images/page_2_sales_performance.png)
+![Sales Performance](03_power_bi/images/page_2_sales_performance.png)
 
 Key findings:
 
@@ -365,7 +365,7 @@ The biggest revenue gap comes from the region with high expected contribution bu
 
 ### Page 3 — Distributor Analysis
 
-![Distributor Analysis](../03_power_bi/images/page_3_distributor_analysis.png)
+![Distributor Analysis](03_power_bi/images/page_3_distributor_analysis.png)
 
 Key findings:
 
