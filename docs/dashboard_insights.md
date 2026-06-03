@@ -1,8 +1,8 @@
-# Power BI Dashboard Insights and Recommendations
+# Power BI Dashboard Insights and Strategic Recommendations
 
 ## Dashboard Flow
 
-The Power BI dashboard is designed to guide users from a high-level business overview to more detailed performance analysis.
+The Power BI dashboard is designed to guide users from a high-level business overview to more detailed performance analysis and management action.
 
 The dashboard includes three pages:
 
@@ -10,10 +10,10 @@ The dashboard includes three pages:
    Provides a high-level view of overall revenue, target achievement, profitability, and revenue contribution by region and channel.
 
 2. **Sales Performance**  
-   Analyzes sales performance against targets by month, region, channel, team, and employee.
+   Explains why revenue is under target by analyzing monthly performance, regional gaps, channel contribution, and employee-level performance.
 
 3. **Distributor Analysis**  
-   Evaluates distributor fulfillment performance through delivered revenue, quantity fill rate, and on-time delivery rate.
+   Evaluates whether sales demand is successfully converted into delivered revenue through delivered revenue, quantity fill rate, and on-time delivery rate.
 
 ---
 
@@ -21,22 +21,41 @@ The dashboard includes three pages:
 
 ## Key Insights
 
-- VietDist achieved only **54.67% of its revenue target**, while Gross Profit Margin remained stable at around **34.67%**.
-- This suggests that the main issue is not profitability per sale, but insufficient revenue scale.
-- The revenue gap remains significant, but margin has not been heavily compressed.
-- Therefore, the priority should not be to reduce prices aggressively in order to sell more. Instead, VietDist should focus on increasing sales volume in the regions and channels with the highest revenue contribution potential.
-- **Traditional Trade** is currently the largest revenue-contributing channel.
-- This channel should continue to be protected and strengthened, but it also creates dependency risk if other channels do not grow enough.
-- **E-commerce** contributes significantly less revenue.
-- However, this should not immediately be interpreted as channel weakness. Further investigation is needed to understand whether E-commerce is under-invested, lacks traffic, or is not well suited to the current product mix.
+VietDist achieved only **54.67% of its revenue target**, while Gross Profit Margin remained stable at around **34.67%**. This indicates that the main issue is not weak profitability per sale, but insufficient revenue scale.
 
-## Business Takeaway
+In other words, VietDist is not losing margin heavily to generate sales. The company is simply not generating enough sales volume to meet its target.
 
-- The overall business issue is **revenue underachievement**, not weak profitability.
-- The dashboard should then move to Page 2 to identify:
-  - Which region creates the largest revenue gap
-  - Which channels are driving actual revenue
-  - Which sales teams or employees require deeper review
+This means management should avoid using broad price discounts as the first solution. If margins are still stable, aggressive discounting may reduce profitability without solving the real issue. The priority should be to identify where revenue volume can be recovered fastest.
+
+Traditional Trade is currently the strongest revenue-contributing channel. This channel should remain the core revenue engine. However, the business also faces dependency risk if revenue growth relies too heavily on one channel.
+
+E-commerce contributes less revenue, but it should not be immediately classified as a weak channel. The dashboard does not yet show whether E-commerce is underperforming because of low traffic, weak product fit, poor promotion strategy, or simply because it is still an early-stage growth channel.
+
+## Management Diagnosis
+
+The company’s main problem is:
+
+**Revenue underachievement caused by insufficient sales scale, not margin erosion.**
+
+Therefore, the next management question should not be:
+
+> “Should we reduce prices to sell more?”
+
+The better question is:
+
+> “Which region, channel, customer group, or distributor can recover the largest revenue gap with the lowest operational risk?”
+
+## Strategic Action
+
+Management should start with a focused revenue recovery plan instead of a broad company-wide sales push.
+
+Recommended actions:
+
+- Do not apply blanket discounts across all regions.
+- Prioritize sales recovery in the regions with the largest target gap.
+- Protect Traditional Trade as the main revenue base.
+- Investigate E-commerce separately before deciding whether to increase or reduce investment.
+- Track revenue recovery together with fulfillment reliability, because sales growth will not be sustainable if distributors cannot deliver on time.
 
 ---
 
@@ -44,32 +63,95 @@ The dashboard includes three pages:
 
 ## Key Insights
 
-- Sales performance is uneven across regions.
-- **Miền Trung achieved 100.56% of its revenue target**, while **Miền Nam achieved only 36.88%**, despite having the highest target.
-- This is an important signal: the largest performance gap is not necessarily where sales are lowest, but where expectations are high and execution is weak.
-- **Miền Nam** should be the first region to review because it has the largest target but the lowest achievement rate.
-- If the region with the highest target underperforms, it will drag down the overall company target even if other regions perform better.
-- **Miền Trung** should be used as an internal benchmark.
-- The business should investigate what makes Miền Trung different in terms of:
-  - Sales pipeline
-  - Customer base
-  - Sales execution
-  - Target allocation
-- Channel Performance shows that **Traditional Trade** remains the strongest contributor to actual revenue and gross profit.
-- However, because targets are not allocated by channel, the channel chart should not be used to conclude which channel is “achieving target.”
-- Instead, the channel view should be used to understand where actual revenue is coming from.
-- The Top/Bottom Employee ranking is only meaningful when interpreted together with region and team context.
-- A bottom-ranked employee may reflect weak performance, but it may also be caused by:
-  - An overly high target
-  - A difficult sales region
-  - Insufficient pipeline
-  - Limited customer coverage
+Sales performance is uneven across regions.
 
-## Business Takeaway
+**Miền Trung achieved 100.56% of its revenue target**, while **Miền Nam achieved only 36.88%**, despite having the highest target. This means Miền Nam is the biggest drag on total company performance.
 
-- **Priority 1:** Review Miền Nam first because it has the largest revenue gap compared with expectations.
-- **Priority 2:** Analyze Miền Trung as a benchmark for best practices.
-- **Priority 3:** Use employee ranking for coaching and follow-up, but do not evaluate employees based only on one target achievement metric.
+The issue is not simply that Miền Nam has low achievement. The more important point is that Miền Nam has the highest target, so any underperformance in this region creates a much larger negative impact on the company’s total target achievement.
+
+Miền Trung should not only be treated as a good result. It should be used as an internal benchmark to understand what stronger sales execution looks like inside the same company.
+
+The employee ranking chart is useful, but it should not be used alone to judge performance. A salesperson with a high achievement percentage may have a low target, while another salesperson may manage a much larger target but appear weaker by percentage.
+
+## Management Diagnosis
+
+The sales problem should be diagnosed at three levels:
+
+1. **Region level:** Miền Nam is the first recovery priority.
+2. **Execution level:** Miền Trung should be studied to identify repeatable best practices.
+3. **Employee level:** Sales performance must be reviewed using both target achievement percentage and absolute revenue contribution.
+
+## Strategic Action 1 — Launch a Miền Nam Sales Recovery Plan
+
+Miền Nam should become the first focus area because it has the lowest target achievement rate and the highest expected revenue contribution.
+
+Recommended actions:
+
+- Identify the top distributors and customers in Miền Nam with the largest revenue gap.
+- Break the regional revenue gap into account-level recovery targets.
+- Assign weekly recovery targets for each key account instead of only tracking monthly regional results.
+- Reallocate strong sales employees or sales supervisors from better-performing areas to support Miền Nam temporarily.
+- Review whether Miền Nam’s target is realistic based on customer base, distributor capacity, and historical performance.
+- Run targeted promotions for selected high-potential distributors instead of broad discounts for the whole region.
+
+Expected outcome:
+
+- Recover revenue where the target gap has the largest business impact.
+- Avoid wasting discount budget on regions or distributors that do not need support.
+- Improve accountability because the revenue gap is assigned to specific accounts and owners.
+
+## Strategic Action 2 — Use Miền Trung as an Internal Sales Benchmark
+
+Miền Trung exceeded its revenue target. Instead of only reporting this result, management should investigate what created the performance difference.
+
+Recommended actions:
+
+- Interview Miền Trung sales employees to understand their working routines.
+- Compare Miền Trung with Miền Nam in terms of:
+  - Number of active customers
+  - Distributor coverage
+  - Order frequency
+  - Sales visit frequency
+  - Promotion usage
+  - Follow-up process
+- Identify whether Miền Trung performs better because of stronger execution, better customer quality, more realistic targets, or stronger distributor support.
+- Convert Miền Trung’s best practices into a short sales playbook.
+- Use top performers from Miền Trung to support coaching sessions for weaker teams.
+
+Expected outcome:
+
+- Turn a strong regional result into a repeatable sales operating model.
+- Improve weaker regions using internal evidence instead of generic sales training.
+
+## Strategic Action 3 — Redesign Employee Performance Review
+
+Employee ranking should not be used only to reward or criticize employees. It should be used to decide the right management action for each employee group.
+
+Recommended employee performance matrix:
+
+| Employee Type | Meaning | Management Action |
+|---|---|---|
+| High revenue + high target achievement | Strong performer with real business impact | Retain, reward, and use as internal mentor |
+| High revenue + low target achievement | Important employee but target may be too aggressive or portfolio is difficult | Review target allocation and provide support |
+| Low revenue + high target achievement | Good percentage result but small business impact | Consider assigning larger accounts or increasing target |
+| Low revenue + low target achievement | Weak performance or poor fit | Provide coaching, close follow-up, or reassess role fit |
+
+Recommended actions:
+
+- Review employee performance by both **actual revenue** and **target achievement percentage**.
+- Do not evaluate employees based only on percentage.
+- Ask each salesperson to explain:
+  - Current pipeline
+  - Blocked customers
+  - Lost opportunities
+  - Next follow-up actions
+- Create a weekly sales review meeting focused on actions, not only numbers.
+
+Expected outcome:
+
+- Make employee evaluation fairer.
+- Identify who needs coaching, who needs more accounts, and who can support other teams.
+- Improve sales execution without creating unnecessary pressure.
 
 ---
 
@@ -77,71 +159,186 @@ The dashboard includes three pages:
 
 ## Key Insights
 
-- Distributors generated approximately **149bn in Delivered Revenue** from around **176bn in Gross Order Value**.
-- This means part of the order value has not been converted into delivered revenue.
-- This issue is directly related to fulfillment, not only sales.
-- **Quantity Fill Rate reached 84.83%**, meaning distributors delivered most of the ordered quantity.
-- However, around **15% of ordered quantity was not fulfilled**, creating quantity leakage.
-- The biggest weakness is the **On-time Delivery Rate of only 40.70%**.
-- This means the distributor issue is not only about incomplete fulfillment, but more seriously about unreliable delivery timing.
-- Fill rate is relatively similar across regions.
-- Therefore, the fulfillment issue does not appear to be concentrated in one specific region. The business should drill down to the distributor level rather than solving the issue only by region.
-- Late Delivery by Channel should be interpreted together with order volume.
-- A channel with more late deliveries is not necessarily the worst channel if its total volume is also much larger.
-- The **Distributor Action Priority** table is the most important view on this page.
-- Distributors with high revenue contribution but low on-time delivery rate should be prioritized first, because they have both high business impact and high operational risk.
+Distributors generated approximately **149bn in Delivered Revenue** from around **176bn in Gross Order Value**. This means part of the order value was not converted into delivered revenue.
 
-## Business Takeaway
+Quantity Fill Rate reached **84.83%**, meaning most ordered quantities were fulfilled. However, the On-time Delivery Rate was only **40.70%**, which is a major operational weakness.
 
-- The biggest distributor issue is **delivery reliability**, not only quantity fulfillment.
-- VietDist should not treat all distributors equally.
-- The business should prioritize distributors with:
-  - High revenue contribution
-  - Low quantity fill rate
-  - Low on-time delivery rate
-- If the sales team creates demand but distributors deliver late, the company may still face:
-  - Lower realized revenue
-  - Poorer customer experience
-  - Less accurate sales forecasting
+This indicates that the main distributor issue is not only whether distributors can fulfill quantities, but whether they can deliver reliably on time.
+
+If VietDist pushes sales aggressively while delivery reliability remains weak, the company may create more orders but still fail to convert them into satisfied customer demand.
+
+## Management Diagnosis
+
+The distributor problem should be treated as an operational risk to revenue recovery.
+
+The core issue is:
+
+**VietDist can generate and fulfill a large part of order quantity, but cannot deliver reliably on time.**
+
+This creates three risks:
+
+1. Customers may reorder less because of poor delivery experience.
+2. Sales forecasts may become less accurate.
+3. Revenue recovery may fail because demand is not fulfilled reliably.
+
+## Strategic Action 4 — Build a Distributor Priority List
+
+VietDist should not treat all distributors equally. The company should prioritize distributors based on business impact and operational risk.
+
+Recommended distributor priority logic:
+
+| Distributor Type | Meaning | Management Action |
+|---|---|---|
+| High revenue contribution + low on-time delivery | High business impact, high operational risk | Immediate operational review |
+| High revenue contribution + low quantity fill rate | Revenue leakage risk | Check stock planning and replenishment |
+| Low revenue contribution + low delivery performance | Low immediate business impact | Monitor, but lower priority |
+| High revenue contribution + strong delivery performance | Strategic partner | Protect and maintain relationship |
+
+Recommended actions:
+
+- Create a list of top distributors by revenue contribution.
+- Among them, identify those with the lowest on-time delivery rate.
+- Review causes of late delivery by distributor:
+  - Stock shortage
+  - Warehouse delay
+  - Poor route planning
+  - Distributor capacity issue
+  - Order processing delay
+- Set a service improvement target, for example:
+  - Improve On-time Delivery Rate from **40.70%** to at least **60%** in the next quarter.
+- Review delivery performance weekly for high-priority distributors.
+
+Expected outcome:
+
+- Focus operational improvement on distributors that matter most to revenue.
+- Improve customer reliability before pushing more sales volume.
+- Reduce the risk of sales growth being blocked by fulfillment problems.
+
+## Strategic Action 5 — Connect Sales Recovery with Distributor Capacity
+
+Sales and distribution should not be managed separately. If Miền Nam is selected as the first sales recovery region, the company must also check whether distributors in Miền Nam can handle increased demand.
+
+Recommended actions:
+
+- Before launching promotions in Miền Nam, check distributor capacity:
+  - Current delivered revenue
+  - Quantity fill rate
+  - On-time delivery rate
+  - Late delivery count
+- Do not push volume to distributors with poor delivery reliability unless operational support is provided.
+- For high-potential but unreliable distributors, create a joint improvement plan.
+- For reliable distributors, consider giving more volume or priority accounts.
+
+Expected outcome:
+
+- Avoid creating demand that the distributor network cannot fulfill.
+- Make the sales recovery plan more realistic and operationally sustainable.
 
 ---
 
-# Final Recommendations
+# Final Strategic Recommendations
 
-## 1. Sales
+## 1. Do not use a broad discount strategy
 
-- Focus first on **Miền Nam**, because it has the highest target but the lowest achievement rate.
-- Use **Miền Trung** as a benchmark to compare sales execution practices.
-- For Bottom Employees, do not immediately conclude that the issue is weak performance.
-- Review additional factors such as:
-  - Whether the target is too high
-  - Whether the region is harder to sell in
-  - Whether the sales pipeline is sufficient
-  - Whether customer coverage is strong enough
+The dashboard shows that Gross Profit Margin is still stable. Therefore, VietDist should not immediately solve the problem through aggressive company-wide discounts.
 
-## 2. Channel
+Instead, discounts or promotions should be selective.
 
-- Maintain **Traditional Trade** as the core revenue channel.
-- For **E-commerce**, clarify its strategic role:
-  - Is it intended to be a strategic growth channel?
-  - Or is it only a supporting channel?
-- If E-commerce is a strategic channel, it requires dedicated investment rather than being evaluated only by its current revenue contribution.
+Recommended approach:
 
-## 3. Distributor
+- Use targeted promotions only in regions or accounts with large revenue gaps.
+- Prioritize Miền Nam because it has the largest performance issue.
+- Avoid discounting in regions that are already performing well, such as Miền Trung.
+- Monitor whether promotion actually increases delivered revenue, not only order value.
 
-- Prioritize improving **On-time Delivery Rate**, because this is the clearest operational weakness.
-- Work first with distributors that have high revenue contribution but low delivery reliability.
-- Monitor three metrics together:
-  - Delivered Revenue
-  - Quantity Fill Rate
-  - On-time Delivery Rate
+## 2. Launch a focused recovery plan for Miền Nam
 
-## 4. Management
+Miền Nam is the most important recovery area because it has the lowest achievement rate despite having the highest target.
 
-- Do not only ask: **“Did revenue achieve target?”**
-- The better management questions are:
-  - Which region is pulling down the company target?
-  - Which sales team needs coaching?
-  - Which channel is actually contributing revenue?
-  - Which distributor is causing order value leakage?
-  - Which distributor has poor delivery reliability but high revenue impact?
+Recommended approach:
+
+- Break the Miền Nam target gap into distributor-level and customer-level gaps.
+- Assign specific recovery targets to sales owners.
+- Temporarily support Miền Nam with stronger sales employees or supervisors.
+- Review whether the target is realistic.
+- Apply targeted promotions to high-potential distributors only.
+
+## 3. Turn Miền Trung into a repeatable sales model
+
+Miền Trung should be used as a benchmark, not only as a good performance result.
+
+Recommended approach:
+
+- Study Miền Trung’s sales process, distributor relationship, customer coverage, and follow-up routine.
+- Identify what can be copied to other regions.
+- Build a short internal sales playbook.
+- Use strong performers from Miền Trung for internal coaching.
+
+## 4. Review employees using a performance matrix
+
+Employee ranking should support coaching and management decisions, not only comparison.
+
+Recommended approach:
+
+- Evaluate employees by both actual revenue and target achievement percentage.
+- Separate employees into four groups:
+  - High revenue + high achievement
+  - High revenue + low achievement
+  - Low revenue + high achievement
+  - Low revenue + low achievement
+- Decide whether each employee needs reward, coaching, target review, account reassignment, or role reassessment.
+
+## 5. Protect Traditional Trade, but clarify E-commerce strategy
+
+Traditional Trade should remain the core revenue channel because it contributes the most revenue and gross profit.
+
+However, E-commerce needs a separate strategic review.
+
+Recommended approach:
+
+- For Traditional Trade:
+  - Protect key distributors.
+  - Strengthen account relationships.
+  - Improve delivery support.
+- For E-commerce:
+  - Analyze order frequency, average order value, margin, and customer acquisition.
+  - Decide whether it is a growth channel, support channel, or low-priority channel.
+  - Do not judge it only by current revenue contribution.
+
+## 6. Improve delivery reliability before scaling sales further
+
+The On-time Delivery Rate of **40.70%** is too low. If this issue is not fixed, sales growth may create more operational pressure and poorer customer experience.
+
+Recommended approach:
+
+- Prioritize high-revenue distributors with low on-time delivery.
+- Set a quarterly target to improve on-time delivery.
+- Review late delivery causes by distributor and channel.
+- Connect sales planning with distributor capacity.
+
+## 7. Manage the business using a region-by-channel action matrix
+
+Instead of using one general strategy for the whole company, VietDist should manage actions by region and channel.
+
+| Area | Priority | Action |
+|---|---|---|
+| Miền Nam | Highest | Sales recovery, account review, targeted promotion |
+| Miền Trung | High | Benchmark and best-practice transfer |
+| Traditional Trade | High | Protect and expand core distributors |
+| E-commerce | Medium | Clarify strategic role before scaling |
+| High-revenue unreliable distributors | High | Operational improvement plan |
+| Low-performing employees | Medium | Coaching, target review, or reassignment |
+
+## Conclusion
+
+The dashboard shows that VietDist’s problem is not only “revenue is below target.” The deeper issue is that revenue recovery requires both sales execution and distributor reliability.
+
+The recommended strategy is therefore:
+
+1. Recover sales in Miền Nam.
+2. Learn from Miền Trung.
+3. Manage employees based on both revenue and achievement rate.
+4. Protect Traditional Trade while reviewing E-commerce strategy.
+5. Fix delivery reliability before scaling sales further.
+
+This turns the dashboard from a reporting tool into a management decision-making tool.
