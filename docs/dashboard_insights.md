@@ -19,6 +19,8 @@ The dashboard includes three pages:
 
 # Page 1 — Overview
 
+![Overview](../03_power_bi/images/page_1_overview.png)
+
 ## Key Insights
 
 VietDist achieved only **54.67% of its revenue target**, while Gross Profit Margin remained stable at around **34.67%**. This indicates that the main issue is not weak profitability per sale, but insufficient revenue scale.
@@ -60,6 +62,8 @@ Recommended actions:
 ---
 
 # Page 2 — Sales Performance
+
+![Sales Performance](../03_power_bi/images/page_2_sales_performance.png)
 
 ## Key Insights
 
@@ -156,6 +160,8 @@ Expected outcome:
 ---
 
 # Page 3 — Distributor Analysis
+
+![Distributor Analysis](../03_power_bi/images/page_3_distributor_analysis.png)
 
 ## Key Insights
 
